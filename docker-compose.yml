@@ -1,0 +1,24 @@
+version: '2'
+services:
+  mautic:
+    image: mautic/mautic
+    environment:
+      - MAUTIC_DB_USER=${MYSQL_USER}
+      - MAUTIC_DB_PASSWORD=${MYSQL_PASSWORD}
+      - MAUTIC_DB_NAME=${MYSQL_DATABASE}
+      - MAUTIC_DB_HOST=${MYSQL_HOST}:${MYSQL_TCP_PORT}
+    links:
+      - mauticdb:mysql
+    ports:
+      - 9999:80
+
+  mauticdb:q
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_TCP_PORT={MYSQL_TCP_PORT}
+    volumes:
+      - ./db/data:/var/lib/mysql
